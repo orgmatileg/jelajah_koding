@@ -55,41 +55,41 @@ defmodule JelajahKodingWeb.Router do
 
   ## Authentication routes
 
-  scope "/", JelajahKodingWeb do
-    pipe_through [:browser, :redirect_if_account_is_authenticated]
+  # scope "/", JelajahKodingWeb do
+  #   pipe_through [:browser, :redirect_if_account_is_authenticated]
 
-    live_session :redirect_if_account_is_authenticated,
-      on_mount: [{JelajahKodingWeb.AccountAuth, :redirect_if_account_is_authenticated}] do
-      live "/accounts/register", AccountRegistrationLive, :new
-      live "/accounts/log_in", AccountLoginLive, :new
-      live "/accounts/reset_password", AccountForgotPasswordLive, :new
-      live "/accounts/reset_password/:token", AccountResetPasswordLive, :edit
-    end
+  #   live_session :redirect_if_account_is_authenticated,
+  #     on_mount: [{JelajahKodingWeb.AccountAuth, :redirect_if_account_is_authenticated}] do
+  #     live "/accounts/register", AccountRegistrationLive, :new
+  #     live "/accounts/log_in", AccountLoginLive, :new
+  #     live "/accounts/reset_password", AccountForgotPasswordLive, :new
+  #     live "/accounts/reset_password/:token", AccountResetPasswordLive, :edit
+  #   end
 
-    post "/accounts/log_in", AccountSessionController, :create
-  end
+  #   post "/accounts/log_in", AccountSessionController, :create
+  # end
 
-  scope "/", JelajahKodingWeb do
-    pipe_through [:browser, :require_authenticated_account]
+  # scope "/", JelajahKodingWeb do
+  #   pipe_through [:browser, :require_authenticated_account]
 
-    live_session :require_authenticated_account,
-      on_mount: [{JelajahKodingWeb.AccountAuth, :ensure_authenticated}] do
-      live "/accounts/settings", AccountSettingsLive, :edit
-      live "/accounts/settings/confirm_email/:token", AccountSettingsLive, :confirm_email
-    end
-  end
+  #   live_session :require_authenticated_account,
+  #     on_mount: [{JelajahKodingWeb.AccountAuth, :ensure_authenticated}] do
+  #     live "/accounts/settings", AccountSettingsLive, :edit
+  #     live "/accounts/settings/confirm_email/:token", AccountSettingsLive, :confirm_email
+  #   end
+  # end
 
-  scope "/", JelajahKodingWeb do
-    pipe_through [:browser]
+  # scope "/", JelajahKodingWeb do
+  #   pipe_through [:browser]
 
-    delete "/accounts/log_out", AccountSessionController, :delete
+  #   delete "/accounts/log_out", AccountSessionController, :delete
 
-    live_session :current_account,
-      on_mount: [{JelajahKodingWeb.AccountAuth, :mount_current_account}] do
-      live "/accounts/confirm/:token", AccountConfirmationLive, :edit
-      live "/accounts/confirm", AccountConfirmationInstructionsLive, :new
-    end
-  end
+  #   live_session :current_account,
+  #     on_mount: [{JelajahKodingWeb.AccountAuth, :mount_current_account}] do
+  #     live "/accounts/confirm/:token", AccountConfirmationLive, :edit
+  #     live "/accounts/confirm", AccountConfirmationInstructionsLive, :new
+  #   end
+  # end
 
   ## Authentication routes
 
@@ -98,10 +98,10 @@ defmodule JelajahKodingWeb.Router do
 
     live_session :redirect_if_admin_is_authenticated,
       on_mount: [{JelajahKodingWeb.AdminAuth, :redirect_if_admin_is_authenticated}] do
-      live "/admins/register", AdminRegistrationLive, :new
+      # live "/admins/register", AdminRegistrationLive, :new
       live "/admins/log_in", AdminLoginLive, :new
-      live "/admins/reset_password", AdminForgotPasswordLive, :new
-      live "/admins/reset_password/:token", AdminResetPasswordLive, :edit
+      # live "/admins/reset_password", AdminForgotPasswordLive, :new
+      # live "/admins/reset_password/:token", AdminResetPasswordLive, :edit
     end
 
     post "/admins/log_in", AdminSessionController, :create
