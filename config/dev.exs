@@ -1,5 +1,7 @@
 import Config
 
+
+
 # Configure your database
 config :jelajah_koding, JelajahKoding.Repo,
   username: "devuser",
