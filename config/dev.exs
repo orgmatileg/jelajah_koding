@@ -1,13 +1,11 @@
 import Config
 
-
-
 # Configure your database
 config :jelajah_koding, JelajahKoding.Repo,
-  username: "devuser",
-  password: "devpassword",
-  hostname: "localhost",
-  database: "jelajah_koding_dev",
+  username: System.get_env("PG_USERNAME") || "devuser",
+  password: System.get_env("PG_PASSWORD") || "devpassword",
+  hostname: System.get_env("PG_HOSTNAME") || "localhost",
+  database: System.get_env("PG_DATABASE") || "jelajah_koding_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
