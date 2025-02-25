@@ -3,8 +3,6 @@ defmodule JelajahKodingWeb.HomeLive.Show do
 
   alias JelajahKoding.Resources
 
-  # alias JelajahKoding.Payments
-
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
