@@ -11,6 +11,9 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
 
   attr :class, :string, default: ""
   attr :variant, :string, default: "default"
+  attr :filter, :string, default: ""
+  attr :phx_click, :string, default: ""
+  attr :phx_value, :string, default: ""
   slot :inner_block
 
   def badge(assigns) do
@@ -27,7 +30,9 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
     assigns = assign(assigns, :class, class)
 
     ~H"""
-    <div class={@class}>{render_slot(@inner_block)}</div>
+    <div phx-click={assigns.phx_click} phx-value-filter={assigns.phx_value} class={@class}>
+      {render_slot(@inner_block)}
+    </div>
     """
   end
 
@@ -133,6 +138,12 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
     """
   end
 
+  attr :type, :string, default: "text"
+  attr :class, :string, default: ""
+  attr :placeholder, :string, default: ""
+  attr :name, :string, default: ""
+  attr :value, :string, default: ""
+
   def input_jk(assigns) do
     default_class =
       "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
@@ -141,7 +152,14 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
     assigns = assign(assigns, :class, class)
 
     ~H"""
-    <input type={@type} class={@class} placeholder={@placeholder} name={@name} value={@value} />
+    <input
+      phx-debounce="100"
+      type={@type}
+      class={@class}
+      placeholder={@placeholder}
+      name={@name}
+      value={@value}
+    />
     """
   end
 

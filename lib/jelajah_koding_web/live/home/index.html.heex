@@ -11,29 +11,68 @@
     </div>
 
     <div class="mb-8 space-y-4 animate-fade-in">
-      <.input_jk
-        type="search"
-        placeholder="Search resources..."
-        name="search"
-        value=""
-        class="max-w-md mx-auto"
-      />
+      <.simple_form for={%{}} phx-change="search" phx-submit="noop">
+        <.input_jk
+          type="search"
+          placeholder="Search resources..."
+          name="search"
+          value={@search_query || ""}
+          class="max-w-md mx-auto"
+        />
+      </.simple_form>
 
       <div class="flex justify-center gap-2">
-        <.badge variant="default" class="cursor-pointer">
+        <.badge
+          variant={if @selected_filter_is_free == "all", do: "default", else: "outline"}
+          class="cursor-pointer"
+          phx_click="filter_is_free"
+          phx_value="all"
+        >
           All
         </.badge>
-        <.badge variant="outline" class="cursor-pointer">
+        <.badge
+          variant={
+            if to_string(@selected_filter_is_free) == "free", do: "default", else: "outline"
+          }
+          class="cursor-pointer"
+          phx_click="filter_is_free"
+          phx_value="free"
+        >
           Free
         </.badge>
-        <.badge variant="outline" class="cursor-pointer">
+        <.badge
+          variant={
+            if to_string(@selected_filter_is_free) == "paid", do: "default", else: "outline"
+          }
+          class="cursor-pointer"
+          phx_click="filter_is_free"
+          phx_value="paid"
+        >
           Paid
         </.badge>
       </div>
       <.scroll_area class="w-full whitespace-nowrap rounded-md border">
         <div class="flex space-x-2 p-4">
-          <%= for {_id, tag} <- @streams.tags do %>
-            <.badge variant="outline" class="cursor-pointer">
+          <.badge
+            variant={if to_string(@selected_filter_tag) == "all", do: "default", else: "outline"}
+            class="cursor-pointer"
+            phx_click="filter_tag"
+            phx_value="all"
+          >
+            All
+          </.badge>
+
+          <%= for tag <- @tags do %>
+            <.badge
+              variant={
+                if to_string(@selected_filter_tag) == to_string(tag.id),
+                  do: "default",
+                  else: "outline"
+              }
+              class="cursor-pointer"
+              phx_click="filter_tag"
+              phx_value={tag.id}
+            >
               {tag.name}
             </.badge>
           <% end %>
@@ -41,17 +80,23 @@
       </.scroll_area>
 
       <div class="grid gap-6 animate-fade-in-up sm:grid-cols-2 lg:grid-cols-3">
-        <%= for {_id, resource} <- @streams.resources do %>
-          <.resource_card
-            id={resource.id}
-            title={resource.title}
-            description={resource.description}
-            is_free={resource.is_free}
-            platform={resource.platform}
-            tags={Enum.map(resource.tags, & &1.name)}
-            url={resource.url}
-            class="max-w-md"
-          />
+        <%= if Enum.empty?(@resources) do %>
+          <div class="text-center mt-20 col-span-full row-span-full">
+            <p class="text-lg text-muted-foreground">No data.</p>
+          </div>
+        <% else %>
+          <%= for resource <- @resources do %>
+            <.resource_card
+              id={resource.id}
+              title={resource.title}
+              description={resource.description}
+              is_free={resource.is_free}
+              platform={resource.platform}
+              tags={Enum.map(resource.tags, & &1.name)}
+              url={resource.url}
+              class="max-w-md"
+            />
+          <% end %>
         <% end %>
       </div>
     </div>

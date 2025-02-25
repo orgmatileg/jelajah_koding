@@ -9,15 +9,31 @@ defmodule JelajahKoding.Resources do
   alias JelajahKoding.Resources.Resource
   alias JelajahKoding.Tags.Tag
 
-  @doc """
-  Returns the list of resources.
+  def list_resources(%{"is_free" => is_free}) do
+    Resource
+    |> where([r], r.is_free == ^is_free)
+    |> Repo.all()
+    |> Repo.preload([:creator, :tags])
+  end
 
-  ## Examples
+  def list_resources(%{"tag" => tag}) do
+    query =
+      from r in JelajahKoding.Resources.Resource,
+        join: t in assoc(r, :tags),
+        where: t.id == ^tag,
+        preload: [tags: t, creator: r]
 
-      iex> list_resources()
-      [%Resource{}, ...]
+    Repo.all(query)
+    |> Repo.preload([:creator, :tags])
+  end
 
-  """
+  def list_resources(%{"title" => title}) do
+    Resource
+    |> where([r], ilike(r.title, ^"%#{title}%"))
+    |> Repo.all()
+    |> Repo.preload([:creator, :tags])
+  end
+
   def list_resources do
     Resource
     |> Repo.all()
@@ -96,7 +112,8 @@ defmodule JelajahKoding.Resources do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_resource(%Resource{} = resource, %{"tag_ids" => tag_ids} = attrs) when is_list(tag_ids) do
+  def update_resource(%Resource{} = resource, %{"tag_ids" => tag_ids} = attrs)
+      when is_list(tag_ids) do
     # Fetch the tag structs based on the provided tag_ids
     tags = Repo.all(from t in Tag, where: t.id in ^tag_ids)
 
