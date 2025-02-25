@@ -22,7 +22,7 @@
             <h1 class="text-3xl font-bold tracking-tight md:text-4xl">
               {@resource.title}
             </h1>
-            <p class="text-muted-foreground">by {@resource.author}</p>
+            <p class="text-muted-foreground">by {@resource.creator.name}</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <.badge variant="default">
@@ -34,13 +34,9 @@
 
         <div class="mb-8 grid gap-6 md:grid-cols-3">
           <div>
-            <p class="text-sm text-muted-foreground">Duration</p>
-            <p class="font-medium">{@resource.duration}</p>
-          </div>
-          <div>
-            <p class="text-sm text-muted-foreground">Last Updated</p>
+            <p class="text-sm text-muted-foreground">Inserted At</p>
             <p class="font-medium">
-              {@resource.last_updated |> to_string()}
+              {@resource.inserted_at |> to_string()}
             </p>
           </div>
           <div>
@@ -57,9 +53,9 @@
         <div class="mb-8">
           <h2 class="mb-3 text-xl font-semibold">Topics</h2>
           <div class="flex flex-wrap gap-2">
-            <.badge variant="outline">Backend</.badge>
-            <.badge variant="outline">Frontend</.badge>
-            <.badge variant="outline">Mobile</.badge>
+            <%= for tag <- @resource.tags do %>
+              <.badge variant="outline">{tag.name}</.badge>
+            <% end %>
           </div>
         </div>
 

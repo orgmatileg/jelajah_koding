@@ -7,9 +7,7 @@ defmodule JelajahKodingWeb.HomeLive.Index do
   def mount(_params, _session, socket) do
     tags = Tags.list_tags()
     resources = Resources.list_resources()
-    dbg(resources)
 
-    # dbg(tags)c
     socket = socket |> stream(:tags, tags) |> stream(:resources, resources)
     {:ok, socket}
   end

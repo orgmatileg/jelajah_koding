@@ -43,13 +43,13 @@
       <div class="grid gap-6 animate-fade-in-up sm:grid-cols-2 lg:grid-cols-3">
         <%= for {_id, resource} <- @streams.resources do %>
           <.resource_card
-            id={1}
+            id={resource.id}
             title={resource.title}
             description={resource.description}
-            is_paid={false}
-            platform="Udemy"
-            tags={["Elixir", "Backend", "Phoenix"]}
-            url="https://udemy.com"
+            is_free={resource.is_free}
+            platform={resource.platform}
+            tags={Enum.map(resource.tags, & &1.name)}
+            url={resource.url}
             class="max-w-md"
           />
         <% end %>

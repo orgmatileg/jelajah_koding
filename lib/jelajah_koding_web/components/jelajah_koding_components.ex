@@ -63,7 +63,7 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
   attr :id, :integer, required: true
   attr :title, :string, required: true
   attr :description, :string, required: true
-  attr :is_paid, :boolean, required: true
+  attr :is_free, :boolean, required: true
   attr :platform, :string, required: true
   attr :tags, :list, required: true
   attr :url, :string, required: true
@@ -85,8 +85,8 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
       />
       <div class="p-6">
         <div class="mb-4 flex items-center justify-between">
-          <.badge variant={if @is_paid, do: "default", else: "secondary"} class="text-xs">
-            {if @is_paid, do: "Paid", else: "Free"}
+          <.badge variant={if @is_free, do: "default", else: "secondary"} class="text-xs">
+            {if @is_free, do: "Free", else: "Paid"}
           </.badge>
           <.badge variant="outline" class="text-xs">
             {@platform}
@@ -191,7 +191,7 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
           >
             <option value="">Select a tag...</option>
             <%= for tag <- @available_tags do %>
-              <option value={tag.id}><%= tag.name %></option>
+              <option value={tag.id}>{tag.name}</option>
             <% end %>
           </select>
         </div>
@@ -201,7 +201,7 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
         <div class="flex flex-wrap gap-2" id="selected-tags-container">
           <%= for tag <- @selected_tags do %>
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
-              <%= tag.name %>
+              {tag.name}
               <button
                 type="button"
                 phx-click="remove_tag"
@@ -209,10 +209,15 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
                 class="ml-1.5 inline-flex items-center justify-center w-4 h-4 text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 rounded-full focus:outline-none"
               >
                 <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
-              <input type="hidden" name={"resource[tag_ids][]"} value={tag.id} />
+              <input type="hidden" name="resource[tag_ids][]" value={tag.id} />
             </span>
           <% end %>
         </div>
@@ -226,7 +231,7 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
 
         const tagName = e.target.options[e.target.selectedIndex].text;
         const container = document.querySelector("#selected-tags-container");
-        
+
         // Check if tag is already selected
         if (container.querySelector(`input[value="${tagId}"]`)) {
           e.target.value = "";
@@ -256,5 +261,4 @@ defmodule JelajahKodingWeb.JelajahKodingComponents do
     </script>
     """
   end
-
 end

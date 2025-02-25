@@ -1,6 +1,8 @@
 defmodule JelajahKodingWeb.HomeLive.Show do
   use JelajahKodingWeb, :live_view
 
+  alias JelajahKoding.Resources
+
   # alias JelajahKoding.Payments
 
   @impl true
@@ -10,23 +12,13 @@ defmodule JelajahKodingWeb.HomeLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    resource = %{
-      id: id,
-      title: "Jelajah Koding",
-      author: "Jelajah Koding",
-      platform: "Jelajah Koding",
-      description: "Jelajah Koding",
-      url: "Jelajah Koding",
-      duration: "Jelajah Koding",
-      last_updated: "Jelajah Koding"
-    }
+    resource = Resources.get_resource_with_creator_and_tags!(id)
 
     {
       :noreply,
       socket
       |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:resource, resource)
-      #  |> assign(:payment, Payments.get_payment!(id))
     }
   end
 
