@@ -1,0 +1,77 @@
+<div :if={!@resource} class="min-h-screen bg-background px-4 py-8 md:px-8">
+  <div class="mx-auto max-w-4xl text-center">
+    <h1 class="text-2xl font-bold">Resource not found</h1>
+    <.link navigate={~p"/"} class="mt-4 inline-block text-primary hover:underline">
+      Back to directory
+    </.link>
+  </div>
+</div>
+
+<div :if={@resource} class="min-h-screen bg-background px-4 py-8 md:px-8">
+  <div class="mx-auto max-w-4xl">
+    <.link navigate="/">
+      <.button class="mb-6">
+        <.icon name="hero-arrow-left-solid" class="h-3 w-3" /> Back to directory
+      </.button>
+    </.link>
+
+    <.card class="overflow-hidden animate-fade-in">
+      <div class="p-6 md:p-8">
+        <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+          <div class="space-y-1">
+            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">
+              {@resource.title}
+            </h1>
+            <p class="text-muted-foreground">by {@resource.author}</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <.badge variant="default">
+              Paid
+            </.badge>
+            <.badge variant="outline">{@resource.platform}</.badge>
+          </div>
+        </div>
+
+        <div class="mb-8 grid gap-6 md:grid-cols-3">
+          <div>
+            <p class="text-sm text-muted-foreground">Duration</p>
+            <p class="font-medium">{@resource.duration}</p>
+          </div>
+          <div>
+            <p class="text-sm text-muted-foreground">Last Updated</p>
+            <p class="font-medium">
+              {@resource.last_updated |> to_string()}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-muted-foreground">Platform</p>
+            <p class="font-medium">{@resource.platform}</p>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="mb-3 text-xl font-semibold">Description</h2>
+          <p class="text-muted-foreground">{@resource.description}</p>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="mb-3 text-xl font-semibold">Topics</h2>
+          <div class="flex flex-wrap gap-2">
+            <.badge variant="outline">Backend</.badge>
+            <.badge variant="outline">Frontend</.badge>
+            <.badge variant="outline">Mobile</.badge>
+          </div>
+        </div>
+
+        <a
+          href={@resource.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
+        >
+          Start Learning <.icon_external_link class="h-4 w-4" />
+        </a>
+      </div>
+    </.card>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<.header>
+  Creator {@creator.id}
+  <:subtitle>This is a creator record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/admins/creators/#{@creator}/edit"}>
+      <.button>Edit creator</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name">{@creator.name}</:item>
+  <:item title="URL">{@creator.url}</:item>
+</.list>
+
+<.back navigate={~p"/admins/creators"}>Back to creators</.back>

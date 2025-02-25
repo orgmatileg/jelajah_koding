@@ -1,0 +1,59 @@
+<div class="min-h-screen bg-background px-4 py-8 md:px-8">
+  <div class="mx-auto max-w-6xl">
+    <div class="mb-12 text-center animate-fade-in">
+      <h1 class="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
+        Tech Learning Directory
+      </h1>
+      <p class="text-lg text-muted-foreground">
+        Discover the best resources to learn technology and software
+        engineering.
+      </p>
+    </div>
+
+    <div class="mb-8 space-y-4 animate-fade-in">
+      <.input_jk
+        type="search"
+        placeholder="Search resources..."
+        name="search"
+        value=""
+        class="max-w-md mx-auto"
+      />
+
+      <div class="flex justify-center gap-2">
+        <.badge variant="default" class="cursor-pointer">
+          All
+        </.badge>
+        <.badge variant="outline" class="cursor-pointer">
+          Free
+        </.badge>
+        <.badge variant="outline" class="cursor-pointer">
+          Paid
+        </.badge>
+      </div>
+      <.scroll_area class="w-full whitespace-nowrap rounded-md border">
+        <div class="flex space-x-2 p-4">
+          <%= for {_id, tag} <- @streams.tags do %>
+            <.badge variant="outline" class="cursor-pointer">
+              {tag.name}
+            </.badge>
+          <% end %>
+        </div>
+      </.scroll_area>
+
+      <div class="grid gap-6 animate-fade-in-up sm:grid-cols-2 lg:grid-cols-3">
+        <%= for {_id, resource} <- @streams.resources do %>
+          <.resource_card
+            id={1}
+            title={resource.title}
+            description={resource.description}
+            is_paid={false}
+            platform="Udemy"
+            tags={["Elixir", "Backend", "Phoenix"]}
+            url="https://udemy.com"
+            class="max-w-md"
+          />
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

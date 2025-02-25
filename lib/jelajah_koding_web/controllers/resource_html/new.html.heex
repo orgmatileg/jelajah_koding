@@ -1,0 +1,13 @@
+<.header>
+  New Resource
+  <:subtitle>Use this form to manage resource records in your database.</:subtitle>
+</.header>
+
+<.resource_form
+  changeset={@changeset}
+  action={~p"/admins/resources"}
+  available_tags={@available_tags}
+  selected_tags={@selected_tags}
+/>
+
+<.back navigate={~p"/admins/resources"}>Back to resources</.back>

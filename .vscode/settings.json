@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "jelajah koding",
+      "username": "devuser",
+      "database": "jelajah_koding_dev",
+      "password": "devpassword"
+    }
+  ]
+}

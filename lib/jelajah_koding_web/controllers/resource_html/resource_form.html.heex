@@ -1,0 +1,25 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+
+  <.input field={f[:title]} type="text" label="Title" />
+  <.input field={f[:description]} type="text" label="Description" />
+  <.input field={f[:platform]} type="text" label="Platform" />
+  <.input field={f[:url]} type="text" label="URL" />
+  <.input field={f[:is_free]} type="checkbox" label="Is Free?" />
+
+  <.input
+    field={f[:creator_id]}
+    type="select"
+    label="Creator"
+    prompt="Select a creator"
+    options={Enum.map(@available_creators, &{&1.name, &1.id})}
+  />
+
+  <.tag_selector field={f[:tags]} available_tags={@available_tags} selected_tags={@selected_tags} />
+
+  <:actions>
+    <.button>Save Resource</.button>
+  </:actions>
+</.simple_form>

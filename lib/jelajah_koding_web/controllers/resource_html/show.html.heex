@@ -1,0 +1,23 @@
+<.header>
+  Resource {@resource.id}
+  <:subtitle>This is a resource record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/admins/resources/#{@resource}/edit"}>
+      <.button>Edit resource</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title">{@resource.title}</:item>
+  <:item title="Description">{@resource.description}</:item>
+  <:item title="Platform">{@resource.platform}</:item>
+  <:item title="URL">{@resource.url}</:item>
+  <:item title="Is Free?">{@resource.is_free}</:item>
+  <:item title="Creator">{@resource.creator.name}</:item>
+  <:item title="Created At">{@resource.inserted_at}</:item>
+  <:item title="Updated At">{@resource.updated_at}</:item>
+  <:item title="Tags"><.tag_list tags={@resource.tags} /></:item>
+</.list>
+
+<.back navigate={~p"/admins/resources"}>Back to resources</.back>
