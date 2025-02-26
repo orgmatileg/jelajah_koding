@@ -12,6 +12,7 @@ defmodule JelajahKoding.Application do
       JelajahKoding.Repo,
       {DNSCluster, query: Application.get_env(:jelajah_koding, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: JelajahKoding.PubSub},
+      JelajahKodingWeb.Presence,
       # Start the Finch HTTP client for sending emails
       {Finch, name: JelajahKoding.Finch},
       # Start a worker by calling: JelajahKoding.Worker.start_link(arg)

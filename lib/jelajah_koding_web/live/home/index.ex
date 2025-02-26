@@ -3,6 +3,7 @@ defmodule JelajahKodingWeb.HomeLive.Index do
 
   alias JelajahKoding.Tags
   alias JelajahKoding.Resources
+  alias JelajahKodingWeb.Presence
 
   def mount(_params, _session, socket) do
     tags = Tags.list_tags()
@@ -18,8 +19,27 @@ defmodule JelajahKodingWeb.HomeLive.Index do
       |> assign(:tags, tags)
       |> assign(:resources, resources)
       |> assign(:search_query, search_query)
+      # initialize count
+      |> assign(:user_count, 0)
 
-    {:ok, socket}
+    if connected?(socket) do
+      # Subscribe to a topic for presence updates
+      JelajahKodingWeb.Endpoint.subscribe("presence:home")
+      # Track the current socket (using socket.id as a unique key)
+      Presence.track(self(), "presence:home", socket.id, %{})
+      # Set the initial count from the current presences
+      user_count = Presence.list("presence:home") |> map_size()
+      socket = assign(socket, :user_count, user_count)
+      {:ok, socket}
+    else
+      {:ok, socket}
+    end
+  end
+
+  # Update the count whenever the presence diff is broadcast
+  def handle_info(%{event: "presence_diff"}, socket) do
+    user_count = Presence.list("presence:home") |> map_size()
+    {:noreply, assign(socket, :user_count, user_count)}
   end
 
   def handle_event("filter_is_free", %{"filter" => filter}, socket) do
